@@ -31,7 +31,10 @@ This source uses Vinext's Next-compatible App Router and `cloudflare:workers` bi
 | Shop monthly | 1 / 2 / 3+ | 20 / 25 / 35% | Free at 3+ in that shipment |
 | Shop quarterly | 1 / 2 / 3+ | 30 / 35 / 40% | Free at 3+ in that shipment |
 | Box | 1 / 2 / 3 / 4 / 5 | 15 / 20 / 30 / 35 / 40% | Free at 3+, otherwise optional $10 |
-| Get | 2 / 3 matching vials | Second half-price / third free | Optional $10 |
-| RT | 1 / 2 / 3+ | 15 / 20 / 30% | Optional $10 at all quantities |
+| Get | Any 2 / 3 peptide vials | Cheapest vial half-price / free | Optional $10 |
+| RT one-time | 1 / 2 / 3+ | 15 / 20 / 30% | Free at 3+, otherwise optional $10 |
+| RT monthly | 1 / 2 / 3+ | 25 / 30 / 40% | Free with every qualifying 3+ vial shipment |
 
-Discounts do not stack. BAC does not count toward peptide tiers. GET quantity 2 costs one base vial plus a second vial rounded to half-price in cents; quantity 3 costs exactly two base vials. Other percentage offers round each discounted unit to cents before multiplication. Main shop counts peptide quantities separately for each delivery schedule.
+Discounts do not stack. BAC does not count toward peptide tiers. GET supports mixed products and sizes. At quantity 2, charge the higher-priced vial normally and round the cheaper vial’s half-price charge to cents. At quantity 3, subtract one lowest-priced vial from the regular total. Allocate the discount once across the complete selection, with stable product/variant tie-breaking. Grouped line quantities must retain exact line totals. Other percentage offers round each discounted unit to cents before multiplication. Main shop counts peptide quantities separately for each delivery schedule.
+
+GLP-3 RT defaults to Monthly Subscribe & Save (25/30/40%). Its prominent price is per bottle, with “You save [amount] on [quantity] vials” underneath and the total on Add Offer to Bag. The header contains only the requested one-time quantity promotion. Retain the larger bottle framing, Best Selling and owner-supplied 5,000+ researcher positioning, and automatic 3+ BAC free gift. The subscription adapter must distinguish the trailing RT offer argument, implement recurring RT prices and gifts, and exclude paid BAC from renewals.

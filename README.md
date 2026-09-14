@@ -8,8 +8,8 @@ The updated site for Inno focusing on core products. This repository contains th
 | --- | --- | --- |
 | `shop` (default) | shop.innoaminos.com | Product pages; one-time and monthly/quarterly subscriptions |
 | `box` | box.innoaminos.com | Mix 1–5 peptide vials; 15/20/30/35/40% savings; free BAC with 3+ |
-| `get` | get.innoaminos.com | Two matching vials: second half price; three matching vials: third free |
-| `rt` | rt.innoaminos.com | INNO-3 RT only; Buy 1/2/3+ saves 15/20/30%; optional $10 BAC |
+| `get` | get.innoaminos.com | Mix any 2 vials: cheaper vial half price; any 3 vials: cheapest vial free |
+| `rt` | rt.innoaminos.com | GLP-3; one-time saves 15/20/30%; monthly saves 25/30/40%; free BAC at 3+ |
 
 The 4- and 5-vial box discounts are proposed commercial rates and require margin review before paid launch. New subdomain DNS is not configured by this repository.
 
@@ -39,6 +39,8 @@ Create an ignored `.dev.vars` file for local Cloudflare bindings using the names
 - Main peptide product pages default to Subscribe & Save, Monthly, Buy 1. BAC Water is one-time only.
 - Bundle cards read Buy 1, Buy 2, Buy 3+, emphasize the discount, and show discounted price per mg. The amount payable remains beside the add-to-bag button.
 - The researcher self-attestation lasts 30 days in the same browser, using a signed receipt with cookie/storage fallback. It does not repeat on each page. Separate subdomains have independent verification and carts.
+- RT displays GLP-3, Best Selling, and Trusted by 5,000+ Researchers, as supplied by the owner. It defaults to monthly, shows the bottle price prominently and full order total on the CTA, and unlocks a free BAC gift at 3+ vials. Paid BAC on smaller orders is one-time only.
+- GET supports mixed products and strengths within each two- or three-vial offer. One discount applies to the lowest-priced vial; duplicates are supported.
 - Build a Box is removed from the shop navigation; the dedicated box storefront owns that flow.
 - COAs open in a tabbed dialog and are separate from the product photos.
 - Product pages, cart, checkout, footer pages, and the first research article are included.
@@ -60,7 +62,8 @@ The current Vinext/Cloudflare application also needs adaptation to the actual Lo
 ## Source map
 
 - `components/storefront.tsx`: main shop and product purchase flow
-- `components/focused-storefront.tsx`: box, get, and RT flows
+- `components/focused-storefront.tsx`: box flow, shared cart, and FAQs
+- `components/rt-storefront.tsx`, `components/get-storefront.tsx`: GLP-3 subscriptions and mixed promotional offers
 - `lib/catalog.ts`, `lib/commerce.ts`: offer calculations and server validation
 - `app/api/`: researcher verification, catalog, checkout, newsletter, contact
 - `components/site-extras.tsx`: researcher modal and COA viewer

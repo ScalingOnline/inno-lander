@@ -79,8 +79,8 @@ function inno_shop_validate_lines($body) {
         $plan = isset($line['plan']) ? $line['plan'] : '';
         if (!isset($catalog[$slug]) || !is_int($variant) || !isset($catalog[$slug]['ids'][$variant]) || !is_int($quantity) || $quantity < 1 || $quantity > 99 || !in_array($plan, array('once', 'monthly', 'quarterly'), true)) { return inno_shop_error('Invalid product selection.'); }
         $accessory = !empty($catalog[$slug]['accessory']);
-        if ($offer !== 'shop' && ($plan !== 'once' || $accessory)) { return inno_shop_error('Choose a one-time peptide offer.'); }
-        if ($offer === 'rt' && $slug !== 'inno-3-rt') { return inno_shop_error('This offer is for INNO-3 RT only.'); }
+        if ($offer !== 'shop' && (($plan !== 'once' && !($offer === 'rt' && $plan === 'monthly')) || $accessory)) { return inno_shop_error('Choose a supported peptide offer and delivery schedule.'); }
+        if ($offer === 'rt' && $slug !== 'inno-3-rt') { return inno_shop_error('This offer is for GLP-3 only.'); }
         if ($accessory && $plan !== 'once') { return inno_shop_error('Amino BAC Water is a one-time product.'); }
         $id = $catalog[$slug]['ids'][$variant];
         $product = wc_get_product($id);
@@ -89,7 +89,7 @@ function inno_shop_validate_lines($body) {
         if ($plan !== 'once') {
             // The adapter must use the installed extension's real purchase-plan metadata.
             // Never invent recurring schedules or launch a second billing system in NMI.
-            $adapter = apply_filters('inno_shop_subscription_adapter', null, $id, $plan, $quantity);
+            $adapter = apply_filters('inno_shop_subscription_adapter', null, $id, $plan, $quantity, $offer);
             if (!is_array($adapter) || empty($adapter['validated']) || empty($adapter['cart_item_data']) || !is_array($adapter['cart_item_data'])) {
                 return inno_shop_error('Subscription checkout is not enabled yet. Choose a one-time purchase or contact our team.', 409);
             }
@@ -99,13 +99,22 @@ function inno_shop_validate_lines($body) {
         $total_count += $quantity;
         $normalized[] = array('slug' => $slug, 'variant' => $variant, 'id' => $id, 'quantity' => $quantity, 'plan' => $plan, 'accessory' => $accessory, 'offer' => $offer, 'adapter' => $adapter);
     }
+    if ($offer === 'get') {
+        $merged = array();
+        foreach ($normalized as $line) {
+            $line_key = $line['slug'] . ':' . $line['variant'];
+            if (isset($merged[$line_key])) { $merged[$line_key]['quantity'] += $line['quantity']; }
+            else { $merged[$line_key] = $line; }
+        }
+        $normalized = array_values($merged);
+    }
     if ($offer === 'box' && $total_count > 5) { return inno_shop_error('Choose up to five items for your box.'); }
-    if ($offer === 'get' && (count($normalized) !== 1 || !in_array($total_count,array(2,3),true))) { return inno_shop_error('Choose two or three matching vials.'); }
-    if ($offer === 'rt' && count($normalized) !== 1) { return inno_shop_error('Choose one INNO-3 RT vial size.'); }
+    if ($offer === 'get' && !in_array($total_count,array(2,3),true)) { return inno_shop_error('Choose any two or three peptide vials.'); }
+    if ($offer === 'rt' && count($normalized) !== 1) { return inno_shop_error('Choose one GLP-3 vial size.'); }
     if ($total_count > 300) { return inno_shop_error('Contact our team for orders over 300 items.'); }
     $plan_counts = array('once'=>0,'monthly'=>0,'quarterly'=>0);
     foreach ($normalized as $line) { if (!$line['accessory']) { $plan_counts[$line['plan']] += $line['quantity']; } }
-    $extra_bac = in_array($offer,array('shop','box'),true) ? count(array_filter($plan_counts, function ($count) { return $count >= 3; })) : 0;
+    $extra_bac = in_array($offer,array('shop','box','rt'),true) ? count(array_filter($plan_counts, function ($count) { return $count >= 3; })) : 0;
     if (!$extra_bac && array_sum($plan_counts) > 0 && !empty($body['bacAddon'])) { $extra_bac = 1; }
     if ($extra_bac) {
         $bac = wc_get_product(1287);
@@ -198,6 +207,7 @@ function inno_shop_is_renewal_cart() {
     return function_exists('wcs_cart_contains_renewal') && wcs_cart_contains_renewal();
 }
 function inno_shop_rate($count, $plan, $offer = 'shop') {
+    if ($offer === 'rt' && $plan === 'monthly') { $rt_rates=array(25,30,40); return $count>0?$rt_rates[min($count,3)-1]:0; }
     if ($offer === 'box') { $box_rates=array(15,20,30,35,40); return $count>0?$box_rates[min($count,5)-1]:0; }
     $rates = array('once'=>array(15,20,30),'monthly'=>array(20,25,35),'quarterly'=>array(30,35,40));
     return $count > 0 && isset($rates[$plan]) ? $rates[$plan][min($count,3)-1] : 0;
@@ -216,11 +226,27 @@ add_action('woocommerce_before_calculate_totals', function ($cart) {
             if (empty($meta['accessory']) && empty($meta['gift']) && empty($meta['addon']) && isset($counts[$meta['plan']])) { $counts[$meta['plan']] += $item['quantity']; }
         }
         if (!$has_shop) { return; }
+        $get_discount_key = null; $get_discount_cents = 0;
+        if ($offer === 'get' && in_array(array_sum($counts), array(2,3))) {
+            $candidates = array();
+            foreach ($cart->get_cart() as $candidate_key => $candidate_item) {
+                $meta = $candidate_item['_inno_shop'] ?? array();
+                if (($meta['offer'] ?? 'shop') !== 'get' || !empty($meta['accessory']) || !empty($meta['gift']) || !empty($meta['addon'])) { continue; }
+                $source = wc_get_product(intval($meta['base_id']));
+                if (!$source) { continue; }
+                $candidates[] = array('key'=>$candidate_key, 'base'=>intval(round(floatval($source->get_regular_price())*100)), 'slug'=>$meta['slug'], 'id'=>intval($meta['base_id']));
+            }
+            usort($candidates, function($a,$b) { return ($a['base'] <=> $b['base']) ?: (strcmp($a['slug'],$b['slug']) ?: ($a['id'] <=> $b['id'])); });
+            if ($candidates) {
+                $cheapest = $candidates[0]; $get_discount_key = $cheapest['key'];
+                $get_discount_cents = array_sum($counts) == 3 ? $cheapest['base'] : $cheapest['base'] - intval(round($cheapest['base']/2));
+            }
+        }
         foreach ($cart->get_cart() as $key=>$item) {
             if (empty($item['_inno_shop'])) { continue; }
             $meta = $item['_inno_shop']; $plan = $meta['plan'];
             if (!empty($meta['gift'])) {
-                if (!in_array($offer,array('shop','box'),true) || empty($counts[$plan]) || $counts[$plan] < 3 || isset($present[$plan])) { $cart->remove_cart_item($key); continue; }
+                if (!in_array($offer,array('shop','box','rt'),true) || empty($counts[$plan]) || $counts[$plan] < 3 || isset($present[$plan])) { $cart->remove_cart_item($key); continue; }
                 $present[$plan] = true; $cart->cart_contents[$key]['quantity'] = 1; $item['data']->set_price(0); continue;
             }
             if (!empty($meta['addon'])) { $cart->remove_cart_item($key); continue; }
@@ -230,13 +256,13 @@ add_action('woocommerce_before_calculate_totals', function ($cart) {
             $percent = !empty($meta['accessory']) ? 0 : inno_shop_rate($counts[$plan], $plan, $offer);
             if ($offer === 'get' && empty($meta['accessory'])) {
                 $cents=intval(round($regular*100));$q=intval($item['quantity']);
-                $total=$q===2?$cents+intval(round($cents/2)):($q===3?$cents*2:$cents*$q);
+                $total=$cents*$q-($key===$get_discount_key?$get_discount_cents:0);
                 $item['data']->set_price($total/100/max(1,$q));
             } else { $item['data']->set_price(round($regular * (100-$percent)/100, wc_get_price_decimals())); }
         }
         $gift_count = 0;
         foreach ($counts as $plan=>$count) {
-            if (!in_array($offer,array('shop','box'),true) || $count < 3) { continue; }
+            if (!in_array($offer,array('shop','box','rt'),true) || $count < 3) { continue; }
             $gift_count++;
             if (!isset($present[$plan])) {
                 $gift = wc_get_product(1287);
@@ -267,10 +293,10 @@ add_action('woocommerce_check_cart_items', function () {
     $total_count=array_sum($counts);
     if(count($offers)>1)wc_add_notice('Offers cannot be combined. Please return to your storefront.','error');
     if($offer==='box'&&$total_count>5)wc_add_notice('A box may contain up to five peptide vials.','error');
-    if($offer==='get'&&($offer_lines!==1||!in_array(intval($total_count),array(2,3),true)))wc_add_notice('Choose two or three matching vials for this offer.','error');
-    if($offer==='rt'&&$offer_lines!==1)wc_add_notice('Choose one INNO-3 RT offer.','error');
+    if($offer==='get'&&!in_array($total_count,array(2,3)))wc_add_notice('Choose any two or three peptide vials for this offer.','error');
+    if($offer==='rt'&&$offer_lines!==1)wc_add_notice('Choose one GLP-3 offer.','error');
     $missing=false;$required=0;
-    foreach($counts as $plan=>$count){if(in_array($offer,array('shop','box'),true)&&$count>=3){$required++;if(empty($gifts[$plan]))$missing=true;}}
+    foreach($counts as $plan=>$count){if(in_array($offer,array('shop','box','rt'),true)&&$count>=3){$required++;if(empty($gifts[$plan]))$missing=true;}}
     if(!$required&&array_sum($counts)>0&&WC()->session&&WC()->session->get('inno_shop_bac_addon')&&!$addons)$missing=true;
     if($missing){$message='Amino BAC Water for your offer could not be added. Please contact our team before completing this order.';if(!wc_has_notice($message,'error'))wc_add_notice($message,'error');}
 });
@@ -280,13 +306,13 @@ add_filter('woocommerce_coupon_is_valid', function ($valid) {
     return $valid;
 }, 10, 1);
 add_filter('woocommerce_cart_item_name', function ($name,$item) {
-    if (!empty($item['_inno_shop']['slug'])) { $catalog=inno_shop_catalog(); $slug=$item['_inno_shop']['slug']; if(isset($catalog[$slug])) { return esc_html($catalog[$slug]['name']); } }
+    if (!empty($item['_inno_shop']['slug'])) { $catalog=inno_shop_catalog(); $slug=$item['_inno_shop']['slug']; if(isset($catalog[$slug])) { return esc_html(($item['_inno_shop']['offer']??'shop')==='rt'&&$slug==='inno-3-rt'?'GLP-3':$catalog[$slug]['name']); } }
     return $name;
 }, 10, 2);
 add_action('woocommerce_checkout_create_order_line_item', function ($item,$cart_key,$values) {
     if (empty($values['_inno_shop'])) { return; }
     $meta=$values['_inno_shop']; $catalog=inno_shop_catalog();
-    if (isset($catalog[$meta['slug']])) { $item->set_name($catalog[$meta['slug']]['name']); }
+    if (isset($catalog[$meta['slug']])) { $item->set_name(($meta['offer']??'shop')==='rt'&&$meta['slug']==='inno-3-rt'?'GLP-3':$catalog[$meta['slug']]['name']); }
     $item->add_meta_data('_inno_shop', $meta, true);
     if (empty($meta['accessory'])) { $item->add_meta_data('Delivery schedule', $meta['plan']==='once'?'One-time':($meta['plan']==='monthly'?'Every month':'Every 3 months'),true); }
 }, 10, 3);
