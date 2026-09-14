@@ -1,0 +1,92 @@
+{
+  "title": "Reta research: understanding retatrutide and the evidence behind a batch",
+  "slug": "reta-retatrutide-research-and-batch-analysis",
+  "deck": "A laboratory perspective on triple-receptor research, analytical identity, purity, and what a certificate of analysis can tell you.",
+  "category": "Research notes",
+  "updatedAt": "2026-09-14",
+  "readingMinutes": 5,
+  "sections": [
+    {
+      "heading": "Start with the molecule",
+      "paragraphs": [
+        "\u201cReta\u201d is an informal abbreviation for retatrutide, also identified in published research as LY3437943. Retatrutide is a single investigational molecule that activates three hormone receptors: glucose-dependent insulinotropic polypeptide (GIP), glucagon-like peptide-1 (GLP-1), and glucagon. Lilly, its developer, describes this activity as triple agonism. The shorthand \u201cGLP-3\u201d is scientifically inaccurate; it does not name the receptor mechanism. [Lilly\u2019s retatrutide overview](https://www.lilly.com/news/stories/what-to-know-about-retatrutide).",
+        "For a laboratory, that background helps define the literature search. The next question is whether a particular material is sufficiently characterized for the intended experiment. A familiar compound name, a product code, and a purity percentage each communicate something different. None should stand in for the complete analytical record."
+      ]
+    },
+    {
+      "heading": "What triple-receptor research examines",
+      "paragraphs": [
+        "A triple agonist creates questions about how one molecule interacts with several biological targets. Researchers can examine receptor activity separately, compare responses across experimental systems, and investigate how those responses change when pathways are studied together. Those questions require attention to the model, controls, and measured endpoint: an observation in one assay is evidence about that assay.",
+        "Published retatrutide work also includes human clinical research. A 2023 randomized, placebo-controlled phase 2 study evaluated an investigational medicine under a defined protocol and assessed safety as well as efficacy. Those findings belong to the studied material, participants, and protocol. They do not establish the identity, performance, or suitability of an independently supplied laboratory product. [Jastreboff and colleagues, primary phase 2 report](https://pubmed.ncbi.nlm.nih.gov/37366315/)."
+      ]
+    },
+    {
+      "heading": "Research material and investigational medicine are distinct",
+      "paragraphs": [
+        "As of September 14, 2026, FDA states that retatrutide is not a component of an FDA-approved drug and has not been found safe and effective for any condition. Lilly continues to describe retatrutide as investigational. A research catalog listing should therefore never be interpreted as access to an approved treatment. [FDA\u2019s current statement](https://www.fda.gov/drugs/drug-alerts-and-statements/fdas-concerns-unapproved-glp-1-drugs-used-weight-loss).",
+        "Laboratory research products are not substitutes for the investigational medicine used in sponsored clinical studies. A certificate of analysis does not establish clinical equivalence or authorize human use."
+      ]
+    },
+    {
+      "heading": "Read identity, purity, and content separately",
+      "paragraphs": [
+        "Identity asks whether analytical evidence supports the stated molecule. Mass spectrometry can contribute evidence about molecular mass; the strength of an identity conclusion depends on the actual methods and data supplied. Ask which identity measurements were performed and how the laboratory interpreted them.",
+        "Purity describes composition as assessed by a specified method. A chromatographic percentage should be read with its method and chromatogram. It does not, by itself, describe every possible impurity or establish the total amount of peptide in a vial.",
+        "Net peptide content addresses quantity. Water and other non-peptide constituents can contribute to the mass of a peptide preparation, so total powder mass and peptide amount are different questions. Look for an explicit quantitative result and its reporting basis rather than calculating peptide content from a purity percentage alone. These distinctions are consistent with published recommendations on characterizing peptides for analytical research. [Hoofnagle and colleagues, peptide characterization study and recommendations](https://pmc.ncbi.nlm.nih.gov/articles/PMC4830481/)."
+      ]
+    },
+    {
+      "heading": "A posted report has a defined scope",
+      "paragraphs": [
+        "Begin with traceability: identify the tested material, batch number, laboratory, report date, and stated tests. Then compare the report\u2019s identifier with the batch offered for purchase. FDA\u2019s Q7 guidance for pharmaceutical ingredients provides a useful documentation reference: certificates should identify the batch and include performed tests, acceptance limits, and numerical results where applicable. Citing that reference does not imply that a research product is pharmaceutical grade or manufactured under GMP. [FDA Q7 guidance, section 11.4](https://www.fda.gov/media/71518/download).",
+        "Treat an uploaded report as evidence about the submitted sample and listed measurements. Ask how that sample relates to the supplied batch. An older report or one for a different batch leaves an unresolved gap. Likewise, a report cannot establish an unlisted property: purity data alone do not demonstrate sterility, endotoxin status, long-term stability, or biological activity.",
+        "For procurement, record both what is documented and what remains unknown. Missing results should remain missing in the assessment; they should not become assumed passes. The laboratory\u2019s own acceptance criteria determine whether the available evidence is sufficient for its research."
+      ]
+    },
+    {
+      "heading": "Review INNO-3 RT for laboratory procurement",
+      "paragraphs": [
+        "INNO-3 RT is listed in 10 mg, 20 mg, and 30 mg sizes. Review the available product specifications and certificate of analysis, confirm the applicable batch, and evaluate the documented tests against your laboratory\u2019s requirements. Size selection is a procurement decision, not a statement about suitability for human use. For laboratory research only. Not for human consumption.",
+        "[Explore INNO-3 RT](/inno-3-rt)"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "label": "Lilly: What to know about retatrutide",
+      "url": "https://www.lilly.com/news/stories/what-to-know-about-retatrutide",
+      "supports": "Triple agonism, receptor names, investigational status, inaccurate GLP-3 shorthand",
+      "accessed": "2026-09-14"
+    },
+    {
+      "label": "FDA: Concerns with unapproved GLP-1 drugs used for weight loss",
+      "url": "https://www.fda.gov/drugs/drug-alerts-and-statements/fdas-concerns-unapproved-glp-1-drugs-used-weight-loss",
+      "supports": "Current unapproved status and warning about human-use sales falsely labeled for research",
+      "accessed": "2026-09-14"
+    },
+    {
+      "label": "Jastreboff et al., NEJM 2023: primary phase 2 trial",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37366315/",
+      "supports": "Clinical study design and safety/efficacy assessment; no numerical clinical outcomes used",
+      "accessed": "2026-09-14"
+    },
+    {
+      "label": "Hoofnagle et al., Clinical Chemistry 2016: peptide characterization",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4830481/",
+      "supports": "Different analytical questions for peptide identity, purity, and quantity; organic/inorganic and water characterization",
+      "accessed": "2026-09-14"
+    },
+    {
+      "label": "FDA: Q7 guidance, section 11.4",
+      "url": "https://www.fda.gov/media/71518/download",
+      "supports": "Batch-specific certificate identification, performed tests, acceptance limits, and results; used only as documentation reference",
+      "accessed": "2026-09-14"
+    }
+  ],
+  "editorialNotes": [
+    "Product sizes 10 mg, 20 mg, and 30 mg are user/parent-provided catalog facts, not independently verified by this research subtask.",
+    "No product-specific identity, purity, net content, sterility, endotoxin, efficacy, or GMP claim is made.",
+    "This JSON is an intermediate content handoff for the existing Site and is not intended as a separate user-facing artifact.",
+    "Update the dated approval-status sentence before later republication."
+  ]
+}

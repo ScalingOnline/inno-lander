@@ -1,0 +1,129 @@
+{
+  "inno-3-rt": [
+    {
+      "title": "Report 1",
+      "image": "/coa/retatest.png",
+      "source": "https://innoaminos.com/wp-content/uploads/2025/11/retatest.png"
+    },
+    {
+      "title": "Report 2",
+      "image": "/coa/Retaapril.png",
+      "source": "https://innoaminos.com/wp-content/uploads/2025/11/Retaapril.png"
+    },
+    {
+      "title": "Report 3",
+      "image": "/coa/GLPRT30testapril.png",
+      "source": "https://innoaminos.com/wp-content/uploads/2025/11/GLPRT30testapril.png"
+    },
+    {
+      "title": "Report 4",
+      "image": "/coa/GLPRT20apriltest.png",
+      "source": "https://innoaminos.com/wp-content/uploads/2025/11/GLPRT20apriltest.png"
+    },
+    {
+      "title": "Report 5",
+      "image": "/coa/RETAKoveratest.png",
+      "source": "https://innoaminos.com/wp-content/uploads/2025/11/RETAKoveratest.png"
+    },
+    {
+      "title": "Report 6",
+      "image": "/coa/RT30test.png",
+      "source": "https://innoaminos.com/wp-content/uploads/2026/06/RT30test.png"
+    },
+    {
+      "title": "Report 7",
+      "image": "/coa/reta20test.png",
+      "source": "https://innoaminos.com/wp-content/uploads/2025/11/reta20test.png"
+    },
+    {
+      "title": "Report 8",
+      "image": "/coa/rt10freedomtest.webp",
+      "source": "https://innoaminos.com/wp-content/uploads/2025/11/rt10freedomtest.webp"
+    },
+    {
+      "title": "Report 9",
+      "image": "/coa/rt20test.png",
+      "source": "https://innoaminos.com/wp-content/uploads/2025/11/rt20test.png"
+    },
+    {
+      "title": "Report 10",
+      "image": "/coa/retatransparent10.png",
+      "source": "https://innoaminos.com/wp-content/uploads/2025/11/retatransparent10.png"
+    },
+    {
+      "title": "Report 11",
+      "image": "/coa/retavanbrightgreentest.png",
+      "source": "https://innoaminos.com/wp-content/uploads/2025/11/retavanbrightgreentest.png"
+    },
+    {
+      "title": "Report 12",
+      "image": "/coa/retastell10test.png",
+      "source": "https://innoaminos.com/wp-content/uploads/2025/11/retastell10test.png"
+    }
+  ],
+  "tesamorelin": [
+    {
+      "title": "Report 1",
+      "image": "/coa/tesatest.png",
+      "source": "https://innoaminos.com/wp-content/uploads/2025/11/tesatest.png"
+    },
+    {
+      "title": "Report 2",
+      "image": "/coa/Tesatestpass.png",
+      "source": "https://innoaminos.com/wp-content/uploads/2025/11/Tesatestpass.png"
+    }
+  ],
+  "mots-c": [
+    {
+      "title": "Report 1",
+      "image": "/coa/MOTScCOA.jpg",
+      "source": "https://innoaminos.com/wp-content/uploads/2026/01/MOTScCOA.jpg"
+    },
+    {
+      "title": "Report 2",
+      "image": "/coa/MOTScapriltest.png",
+      "source": "https://innoaminos.com/wp-content/uploads/2025/11/MOTScapriltest.png"
+    },
+    {
+      "title": "Report 3",
+      "image": "/coa/MOTSCKovera.png",
+      "source": "https://innoaminos.com/wp-content/uploads/2025/11/MOTSCKovera.png"
+    }
+  ],
+  "klow": [
+    {
+      "title": "Report 1",
+      "image": "/coa/KlowCOA.png",
+      "source": "https://innoaminos.com/wp-content/uploads/2026/06/KlowCOA.png"
+    }
+  ],
+  "reconstitution-solution": [
+    {
+      "title": "Report 1",
+      "image": "/coa/BacWater.png",
+      "source": "https://innoaminos.com/wp-content/uploads/2026/01/BacWater.png"
+    }
+  ],
+  "wolverine": [
+    {
+      "title": "Report 1",
+      "image": "/coa/wolverinetestfreedom.png",
+      "source": "https://innoaminos.com/wp-content/uploads/2025/11/wolverinetestfreedom.png"
+    },
+    {
+      "title": "Report 2",
+      "image": "/coa/wolverinetest.png",
+      "source": "https://innoaminos.com/wp-content/uploads/2025/11/wolverinetest.png"
+    },
+    {
+      "title": "Report 3",
+      "image": "/coa/wolverineapril.png",
+      "source": "https://innoaminos.com/wp-content/uploads/2025/11/wolverineapril.png"
+    },
+    {
+      "title": "Report 4",
+      "image": "/coa/bpctbtest.webp",
+      "source": "https://innoaminos.com/wp-content/uploads/2026/07/bpctbtest.webp"
+    }
+  ]
+}
